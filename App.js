@@ -14,6 +14,8 @@ import Header from './src/components/Header';
 import NuevoPresupuesto from './src/components/NuevoPresupuesto';
 import ControlPresupuesto from './src/components/ControlPresupuesto';
 import FormularioGasto from './src/components/FormularioGasto';
+import ListadoGastos from './src/components/ListadoGastos';
+import { generarId } from './src/helpers';
 
 const App = () => {
 
@@ -32,31 +34,65 @@ const App = () => {
     }
   }
 
+  const handleGasto = gasto => {
+
+    if(Object.values(gasto).includes('')){
+      Alert.alert(
+        "Error",
+        "Todos lo campos son obligatorios",
+        [{text: 'Aceptar'}]
+      )
+
+      return
+    }
+
+    //Añadir el nuevo gasto al state
+    gasto.id = generarId()
+    gasto.fecha = Date.now()
+
+    setGastos([...gastos, gasto])
+    setModal(!Modal)
+  }
+
   return (
     <View style={styles.contenedor}>
-      <View style={styles.header}>
-        <Header />
-        
-        {isValidPresupuesto ? (
-          <ControlPresupuesto
-            presupuesto={presupuesto}
-            gastos={gastos}
+      <ScrollView>
+        <View style={styles.header}>
+          <Header />
+          
+          {isValidPresupuesto ? (
+            <ControlPresupuesto
+              presupuesto={presupuesto}
+              gastos={gastos}
+            />
+          ) : (
+            <NuevoPresupuesto 
+              presupuesto={presupuesto}
+              setPresupuesto={setPresupuesto}
+              handleNuevoPresupuesto={handleNuevoPresupuesto}
+            />
+          )}        
+        </View>
+
+        {isValidPresupuesto && (
+          <ListadoGastos
+            gastos={gastos} 
           />
-        ) : (
-          <NuevoPresupuesto 
-            presupuesto={presupuesto}
-            setPresupuesto={setPresupuesto}
-            handleNuevoPresupuesto={handleNuevoPresupuesto}
-          />
-        )}        
-      </View>
+        )}
+
+      </ScrollView>
+
       {modal && (
         <Modal
           animationType='slide'
           visible={modal} 
+          onRequestClose={() => {
+            setModal(!modal)
+          }}
         >
           <FormularioGasto
-
+            setModal={setModal}
+            handleGasto={handleGasto}
           />
         </Modal>
       )}
@@ -83,13 +119,14 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#3B82F6',
+    minHeight:400
   },
   imagen: {
     width: 60,
     height: 60,
     position: 'absolute',
-    top: 120,
-    right: 20
+    bottom: 30,
+    right: 30
   }
 });
 
