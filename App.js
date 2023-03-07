@@ -23,6 +23,7 @@ const App = () => {
   const [presupuesto, setPresupuesto] = useState(0)
   const [gastos, setGastos] = useState([])
   const [modal, setModal] = useState(false)
+  const [ gasto, setGasto] = useState({})
 
   const handleNuevoPresupuesto = (presupuesto) => {
     if(Number(presupuesto) > 0) {
@@ -77,6 +78,8 @@ const App = () => {
         {isValidPresupuesto && (
           <ListadoGastos
             gastos={gastos} 
+            setModal={setModal}
+            setGasto={setGasto}
           />
         )}
 
@@ -93,6 +96,8 @@ const App = () => {
           <FormularioGasto
             setModal={setModal}
             handleGasto={handleGasto}
+            gasto={gasto}
+            setGasto={setGasto}
           />
         </Modal>
       )}
@@ -118,7 +123,9 @@ const styles = StyleSheet.create({
     flex: 1 
   },
   header: {
-    backgroundColor: '#3B82F6',
+    //
+    //backgroundColor: '#3B82F6',
+    backgroundColor: '#32CD32',
     minHeight:400
   },
   imagen: {

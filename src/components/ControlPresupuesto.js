@@ -15,7 +15,7 @@ const ControlPresupuesto = ({presupuesto,gastos}) => {
 
     setDisponible(totalDisponible)
     setGastado(totalGastado)
-  }, [])
+  }, [gastos])
 
 
   return (
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
   },
   label:{
     fontWeight: '700',
-    color: '#3B82F6'
+    //color: '#3B82F6'
+    color: '#008000'
   }
 })
 

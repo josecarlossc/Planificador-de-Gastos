@@ -1,19 +1,38 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Text, SafeAreaView, View, TextInput, StyleSheet, Pressable} 
 from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import globalStyles from '../styles'
 
-const FormularioGasto = ({setModal, handleGasto}) => {
+const FormularioGasto = ({
+  setModal, 
+  handleGasto, 
+  gasto, 
+  setGasto
+}) => {
   const [ nombre, setNombre ] = useState('')
   const [ cantidad, setCantidad ] = useState('')
   const [ categoria, setCategoria ] = useState('')
+  const [ id, setId] = useState('')
+  
+
+  useEffect(() => {
+      if (gasto?.nombre) {
+        setNombre(gasto.nombre)
+        setCantidad(gasto.cantidad)
+        setCategoria(gasto.categoria)
+        setId(gasto.id)
+      }
+  }, [gasto])
 
   return (
     <SafeAreaView style={styles.contenedor}>
         <View>
             <Pressable 
-                onLongPress={() => setModal(false)}
+                onLongPress={() => {
+                  setModal(false)
+                  setGasto({})
+                }}
                 style={styles.btnCancelar}
               >
                 <Text style={styles.btnCancelarTexto}>Cancelar</Text>
@@ -77,7 +96,8 @@ const FormularioGasto = ({setModal, handleGasto}) => {
 
 const styles = StyleSheet.create({
     contenedor: {
-      backgroundColor: '#1E40AF',
+      //backgroundColor: '#1E40AF',
+      backgroundColor: '#006400',
       flex: 1
     },
     formulario: {
@@ -117,7 +137,8 @@ const styles = StyleSheet.create({
       marginTop: 10
     },
     submitBtn: {
-      backgroundColor: '#3B82F6',
+      //backgroundColor: '#3B82F6',
+      backgroundColor: '#008000',
       padding: 10,
       marginTop: 20
     },
