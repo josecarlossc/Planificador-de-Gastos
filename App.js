@@ -37,7 +37,7 @@ const App = () => {
 
   const handleGasto = gasto => {
 
-    if(Object.values(gasto).includes('')){
+    if([ gasto.nombre, gasto.categoria, gasto.cantidad ].includes('') ) {
       Alert.alert(
         "Error",
         "Todos lo campos son obligatorios",
@@ -47,12 +47,38 @@ const App = () => {
       return
     }
 
-    //Añadir el nuevo gasto al state
-    gasto.id = generarId()
-    gasto.fecha = Date.now()
+    if(gasto.id) {
+      const gastosActualizados = gastos.map( gastoState => gastoState.id
+      === gasto.id ? gasto : gastoState)
+      setGastos(gastosActualizados)
+    }else{
+      //Añadir el nuevo gasto al state
+      gasto.id = generarId()
+      gasto.fecha = Date.now()
 
-    setGastos([...gastos, gasto])
+      setGastos([...gastos, gasto])      
+    }
+
     setModal(!Modal)
+  }
+
+  const eliminarGasto = id => {
+    Alert.alert(
+      '¿Deseas eliminar este gasto?',
+      'Un gasto eliminado no se puede recuperar',
+      [
+        { text: 'No', style: 'cancel'},
+        { text: 'Sí, Eliminar', onPress: () => {
+          
+          const gastosActualizados = gastos.filter(gastoState => 
+            gastoState.id !== id )
+
+            setGastos(gastosActualizados)
+            setModal(!modal)
+            setGasto({})
+        }}
+      ]
+    )
   }
 
   return (
@@ -98,12 +124,14 @@ const App = () => {
             handleGasto={handleGasto}
             gasto={gasto}
             setGasto={setGasto}
+            eliminarGasto={eliminarGasto}
           />
         </Modal>
       )}
       
       {isValidPresupuesto && (
         <Pressable
+          style={styles.pressable}
           onPress={() => setModal(!modal)}
         >
           <Image
@@ -128,12 +156,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#32CD32',
     minHeight:400
   },
-  imagen: {
+  pressable: {
     width: 60,
     height: 60,
     position: 'absolute',
     bottom: 30,
     right: 30
+  },
+  imagen: {
+    width: 60,
+    height: 60,  
   }
 });
 

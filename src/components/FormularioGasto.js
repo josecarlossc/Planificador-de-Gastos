@@ -8,12 +8,15 @@ const FormularioGasto = ({
   setModal, 
   handleGasto, 
   gasto, 
-  setGasto
+  setGasto,
+  eliminarGasto
 }) => {
   const [ nombre, setNombre ] = useState('')
   const [ cantidad, setCantidad ] = useState('')
   const [ categoria, setCategoria ] = useState('')
   const [ id, setId] = useState('')
+  const [ fecha, setFecha] = useState('')
+
   
 
   useEffect(() => {
@@ -22,25 +25,35 @@ const FormularioGasto = ({
         setCantidad(gasto.cantidad)
         setCategoria(gasto.categoria)
         setId(gasto.id)
+        setFecha(gasto.fecha)
       }
   }, [gasto])
 
   return (
     <SafeAreaView style={styles.contenedor}>
-        <View>
+        <View style={styles.contenedorBotones}>
             <Pressable 
                 onLongPress={() => {
                   setModal(false)
                   setGasto({})
                 }}
-                style={styles.btnCancelar}
+                style={[styles.btn, styles.btnCancelar]}
               >
-                <Text style={styles.btnCancelarTexto}>Cancelar</Text>
+                <Text style={styles.btnTexto}>Cancelar</Text>
+            </Pressable>
+
+            <Pressable 
+                style={[styles.btn, styles.btnEliminar]}
+                onLongPress={() => eliminarGasto(id)}
+              >
+                <Text style={styles.btnTexto}>Eliminar</Text>
             </Pressable>
         </View>
 
         <View style={styles.formulario}>
-            <Text style={styles.titulo}>Nuevo Gasto</Text>
+            <Text style={styles.titulo}> 
+                {gasto?.nombre ? 'Editar Gasto' : 'Nuevo Gasto'} 
+            </Text>
 
             <View style={styles.campo}>
                 <Text style={styles.label}>Nombre Gasto</Text>
@@ -84,9 +97,13 @@ const FormularioGasto = ({
 
             <Pressable 
               style={styles.submitBtn}
-              onPress={() => handleGasto({ nombre, cantidad, categoria })}
+              onPress={() => handleGasto({ nombre, cantidad, 
+                categoria, id, fecha })}
             >
-              <Text style={styles.submitBtnTexto}>Agregar Gasto</Text>
+              <Text style={styles.submitBtnTexto}>
+                {gasto?.nombre ? 'Guardar Cambios Gasto' : 
+                'Agregar Gasto'} 
+                </Text>
             </Pressable>
         </View>
       
@@ -100,16 +117,27 @@ const styles = StyleSheet.create({
       backgroundColor: '#006400',
       flex: 1
     },
+    contenedorBotones:{
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    },
     formulario: {
       ...globalStyles.contenedor
     },
-    btnCancelar: {
-      backgroundColor: '#DB2777',
+    btn: {
       padding: 10,
       marginTop: 30,
-      marginHorizontal: 10
+      marginHorizontal: 10,
+      flex: 1
     },
-    btnCancelarTexto:{
+    btnCancelar: {
+      backgroundColor: '#DB2777',
+      
+    },
+    btnEliminar: {
+      backgroundColor: 'red'
+    },
+    btnTexto: {
       textAlign: 'center',
       textTransform: 'uppercase',
       fontWeight: 'bold',
