@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.12",
     "@react-native-picker/picker": "^2.4.8",
     "intl": "^1.2.5",
     "react": "18.1.0",
