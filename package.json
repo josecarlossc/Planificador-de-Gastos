@@ -10,11 +10,16 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.12",
     "@react-native-picker/picker": "^2.4.8",
     "intl": "^1.2.5",
     "react": "18.1.0",
     "react-native": "0.70.6",
-    "react-native-gradle-plugin": "^0.71.15"
+    "react-native-circular-progress-indicator": "^4.4.2",
+    "react-native-gradle-plugin": "^0.71.15",
+    "react-native-reanimated": "^3.0.2",
+    "react-native-start": "^0.2.56",
+    "react-native-svg": "^13.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

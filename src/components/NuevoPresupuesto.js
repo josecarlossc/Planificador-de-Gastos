@@ -7,7 +7,8 @@ const NuevoPresupuesto = ({
     setPresupuesto, 
     handleNuevoPresupuesto
 }) => {
-    
+
+
   return (
     <View style={styles.contenedor}>
         <Text style={styles.label}>Definir Presupuesto</Text>

@@ -42,12 +42,15 @@ const FormularioGasto = ({
                 <Text style={styles.btnTexto}>Cancelar</Text>
             </Pressable>
 
-            <Pressable 
+            { !!id && (
+              <Pressable 
                 style={[styles.btn, styles.btnEliminar]}
                 onLongPress={() => eliminarGasto(id)}
               >
                 <Text style={styles.btnTexto}>Eliminar</Text>
-            </Pressable>
+              </Pressable>
+            )}
+
         </View>
 
         <View style={styles.formulario}>
